@@ -1,10 +1,10 @@
 /*
-GV Electro Product Descriptions — SAFE v3
-Versión sin animaciones de aparición.
-No oculta elementos.
+GV Electro Product Descriptions — SAFE v4
+Versión estable sin reveal.
+Elimina CSS viejo que ocultaba bloques.
+Quita .gv-reveal del HTML en runtime.
 No usa opacity:0.
-No usa IntersectionObserver para revelar bloques.
-Soluciona bug de elementos que desaparecen al hacer scroll.
+No usa animaciones de aparición.
 */
 
 (function () {
@@ -13,7 +13,7 @@ Soluciona bug de elementos que desaparecen al hacer scroll.
   var CONFIG = {
     barDuration: 900,
     countDuration: 800,
-    maxRetries: 50,
+    maxRetries: 80,
     retryDelay: 150
   };
 
@@ -29,14 +29,32 @@ Soluciona bug de elementos que desaparecen al hacer scroll.
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
+  function removeOldGVStyles() {
+    var styles = document.querySelectorAll('style');
+
+    styles.forEach(function (style) {
+      var txt = style.textContent || '';
+      var isOld =
+        style.getAttribute('data-gv') === 'enhancer' ||
+        style.getAttribute('data-gv-safe-enhancer') === 'v2' ||
+        txt.indexOf('.gv-desc .gv-reveal{opacity:0') !== -1 ||
+        txt.indexOf('.gv-desc .gv-reveal {opacity:0') !== -1 ||
+        txt.indexOf('.gv-desc .gv-reveal') !== -1 && txt.indexOf('opacity:0') !== -1;
+
+      if (isOld) {
+        style.parentNode.removeChild(style);
+      }
+    });
+  }
+
   function injectSafeCSS() {
-    if (document.querySelector('style[data-gv-safe-enhancer="v3"]')) return;
+    if (document.querySelector('style[data-gv-safe-enhancer="v4"]')) return;
 
     var css = [
       '.gv-desc,.gv-desc *{box-sizing:border-box}',
       '.gv-desc .gv-reveal{opacity:1!important;visibility:visible!important;transform:none!important}',
-      '.gv-desc.gv-js .gv-card{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}',
-      '.gv-desc.gv-js .gv-card:hover{transform:translateY(-3px)!important;box-shadow:0 12px 28px rgba(11,95,184,.16)!important;border-color:#CFE0F4!important}',
+      '.gv-desc.gv-js .gv-card{transition:box-shadow .22s ease,border-color .22s ease}',
+      '.gv-desc.gv-js .gv-card:hover{box-shadow:0 12px 28px rgba(11,95,184,.16)!important;border-color:#CFE0F4!important}',
       '.gv-desc.gv-js .gv-acc{transition:box-shadow .22s ease,border-color .22s ease}',
       '.gv-desc.gv-js .gv-acc[open]{box-shadow:0 12px 28px rgba(11,95,184,.15)!important;border-color:#CFE0F4!important}',
       '.gv-desc.gv-js summary{outline-offset:3px}',
@@ -45,18 +63,19 @@ Soluciona bug de elementos que desaparecen al hacer scroll.
     ].join('');
 
     var style = document.createElement('style');
-    style.setAttribute('data-gv-safe-enhancer', 'v3');
+    style.setAttribute('data-gv-safe-enhancer', 'v4');
     style.textContent = css;
     document.head.appendChild(style);
   }
 
-  function forceVisible(root) {
-    var items = root.querySelectorAll('.gv-reveal');
+  function killReveal(root) {
+    var revealItems = root.querySelectorAll('.gv-reveal');
 
-    items.forEach(function (el) {
-      el.style.opacity = '1';
-      el.style.visibility = 'visible';
-      el.style.transform = 'none';
+    revealItems.forEach(function (el) {
+      el.classList.remove('gv-reveal');
+      el.style.setProperty('opacity', '1', 'important');
+      el.style.setProperty('visibility', 'visible', 'important');
+      el.style.setProperty('transform', 'none', 'important');
     });
   }
 
@@ -95,7 +114,6 @@ Soluciona bug de elementos que desaparecen al hacer scroll.
       el.setAttribute('data-gv-count-ready', 'true');
 
       var target = parseInt(el.getAttribute('data-gv-count'), 10);
-
       if (isNaN(target)) return;
 
       var suffix = el.getAttribute('data-gv-suffix') || '';
@@ -178,16 +196,17 @@ Soluciona bug de elementos que desaparecen al hacer scroll.
 
     root.classList.add('gv-js');
 
-    forceVisible(root);
+    killReveal(root);
     setupBars(root);
     setupCounts(root);
     setupCards(root);
     setupDetails(root);
 
-    root.setAttribute('data-gv-enhanced', 'v3');
+    root.setAttribute('data-gv-enhanced', 'v4');
   }
 
   function enhanceAll() {
+    removeOldGVStyles();
     injectSafeCSS();
 
     var roots = Array.prototype.slice.call(document.querySelectorAll('.gv-desc, [data-gv-desc]'));
