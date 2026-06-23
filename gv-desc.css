@@ -15,12 +15,25 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
   color: var(--gv-ink);
   line-height: 1.55;
+  display: block;
   width: 100%;
   max-width: 880px;
-  margin: 0 auto;
+  margin: 0 auto !important;
   padding: 0 16px;
   -webkit-font-smoothing: antialiased;
   overflow-wrap: anywhere;
+}
+
+.woocommerce-product-details__short-description:has(.gv-desc) {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.woocommerce-product-details__short-description:has(.gv-desc) > p:empty,
+.woocommerce-product-details__short-description:has(.gv-desc) > p:has(> br:only-child),
+.woocommerce-product-details__short-description:has(.gv-desc) > p:has(> link),
+.woocommerce-product-details__short-description:has(.gv-desc) > p:has(> script) {
+  display: none !important;
 }
 
 .gv-desc svg {
@@ -194,13 +207,16 @@
 
 .gv-acc {
   margin-bottom: 10px;
-  padding: 14px 16px;
+  padding: 0;
 }
 
 .gv-acc summary {
   display: flex;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  min-height: 68px;
+  padding: 14px 16px;
   color: var(--gv-ink);
   cursor: pointer;
   font-size: 15px;
@@ -225,7 +241,7 @@
 }
 
 .gv-acc-body {
-  margin-top: 12px;
+  margin: 0 16px 14px;
   padding-top: 12px;
   border-top: 1px dashed var(--gv-line);
   color: var(--gv-muted);
