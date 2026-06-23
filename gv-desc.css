@@ -44,8 +44,7 @@
   position: relative;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(120deg, #0b5fb8 0%, #1f78d1 100%);
-  background-color: #0b5fb8;
+  background: #1672c9;
   border-radius: 8px;
   padding: 24px;
   margin-bottom: 24px;
@@ -329,14 +328,28 @@
   }
 
   .gv-hero {
-    contain: paint;
-    box-shadow: 0 6px 18px rgba(11, 95, 184, .14);
+    position: relative;
+    color: var(--gv-ink);
+    background: #fff;
+    border: 1px solid var(--gv-line);
+    border-top: 8px solid #1672c9;
+    box-shadow: 0 4px 14px rgba(11, 95, 184, .07);
     padding: 20px 16px;
   }
 
-  .gv-js .gv-card,
-  .gv-js .gv-acc {
-    transition: none;
+  .gv-hero::before {
+    content: none;
+  }
+
+  .gv-lead {
+    opacity: 1;
+    color: var(--gv-muted);
+  }
+
+  .gv-pill {
+    color: var(--gv-primary);
+    background: var(--gv-soft);
+    border-color: var(--gv-line);
   }
 
   .gv-title {

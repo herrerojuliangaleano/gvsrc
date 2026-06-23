@@ -1,5 +1,5 @@
 /*
-GV Electro Product Descriptions - SAFE v5
+GV Electro Product Descriptions - SAFE v7
 Estable para HTML pegado en proveedores:
 - no usa reveal ni opacity: 0;
 - no modifica layout base;
@@ -11,7 +11,7 @@ Estable para HTML pegado en proveedores:
 (function () {
   "use strict";
 
-  var VERSION = "v5";
+  var VERSION = "v7";
   var CONFIG = {
     barDuration: 900,
     countDuration: 800,
@@ -30,10 +30,6 @@ Estable para HTML pegado en proveedores:
 
   function prefersReducedMotion() {
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }
-
-  function isTouchViewport() {
-    return window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse), (max-width: 767px)").matches;
   }
 
   function toArray(list) {
@@ -62,14 +58,13 @@ Estable para HTML pegado en proveedores:
     var css = [
       ".gv-desc,.gv-desc *{box-sizing:border-box}",
       ".gv-desc .gv-reveal{opacity:1!important;visibility:visible!important;transform:none!important}",
-      ".gv-desc.gv-js .gv-card{transition:box-shadow .22s ease,border-color .22s ease,transform .22s ease}",
+      ".gv-desc.gv-js .gv-card{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}",
       ".gv-desc.gv-js .gv-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(11,95,184,.13)!important;border-color:#bfd6ec!important}",
       ".gv-desc.gv-js .gv-acc{transition:box-shadow .22s ease,border-color .22s ease}",
       ".gv-desc.gv-js .gv-acc[open]{box-shadow:0 12px 28px rgba(11,95,184,.13)!important;border-color:#bfd6ec!important}",
       ".gv-desc.gv-js summary{outline-offset:3px}",
       ".gv-desc.gv-js summary:focus-visible{outline:3px solid #FFB020;border-radius:8px}",
-      ".gv-desc.gv-js svg{flex:none}",
-      "@media (hover:none),(pointer:coarse),(max-width:767px){.gv-desc.gv-js .gv-card,.gv-desc.gv-js .gv-acc{transition:none!important}.gv-desc.gv-js .gv-card:hover{transform:none!important}}"
+      ".gv-desc.gv-js svg{flex:none}"
     ].join("");
 
     var style = document.createElement("style");
@@ -118,7 +113,7 @@ Estable para HTML pegado en proveedores:
       if (bar.getAttribute("data-gv-bar-ready") === "true") return;
       bar.setAttribute("data-gv-bar-ready", "true");
 
-      if (prefersReducedMotion() || isTouchViewport() || !bar.animate) return;
+      if (prefersReducedMotion() || !bar.animate) return;
 
       try {
         bar.animate([
@@ -148,7 +143,7 @@ Estable para HTML pegado en proveedores:
       var suffix = el.getAttribute("data-gv-suffix") || "";
       var prefix = el.getAttribute("data-gv-prefix") || "";
 
-      if (prefersReducedMotion() || isTouchViewport() || !window.requestAnimationFrame) {
+      if (prefersReducedMotion() || !window.requestAnimationFrame) {
         el.textContent = prefix + target + suffix;
         return;
       }
