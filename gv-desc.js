@@ -32,6 +32,10 @@ Estable para HTML pegado en proveedores:
     return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
+  function isTouchViewport() {
+    return window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse), (max-width: 767px)").matches;
+  }
+
   function toArray(list) {
     return Array.prototype.slice.call(list || []);
   }
@@ -64,7 +68,8 @@ Estable para HTML pegado en proveedores:
       ".gv-desc.gv-js .gv-acc[open]{box-shadow:0 12px 28px rgba(11,95,184,.13)!important;border-color:#bfd6ec!important}",
       ".gv-desc.gv-js summary{outline-offset:3px}",
       ".gv-desc.gv-js summary:focus-visible{outline:3px solid #FFB020;border-radius:8px}",
-      ".gv-desc.gv-js svg{flex:none}"
+      ".gv-desc.gv-js svg{flex:none}",
+      "@media (hover:none),(pointer:coarse),(max-width:767px){.gv-desc.gv-js .gv-card,.gv-desc.gv-js .gv-acc{transition:none!important}.gv-desc.gv-js .gv-card:hover{transform:none!important}}"
     ].join("");
 
     var style = document.createElement("style");
@@ -113,7 +118,7 @@ Estable para HTML pegado en proveedores:
       if (bar.getAttribute("data-gv-bar-ready") === "true") return;
       bar.setAttribute("data-gv-bar-ready", "true");
 
-      if (prefersReducedMotion() || !bar.animate) return;
+      if (prefersReducedMotion() || isTouchViewport() || !bar.animate) return;
 
       try {
         bar.animate([
@@ -143,7 +148,7 @@ Estable para HTML pegado en proveedores:
       var suffix = el.getAttribute("data-gv-suffix") || "";
       var prefix = el.getAttribute("data-gv-prefix") || "";
 
-      if (prefersReducedMotion() || !window.requestAnimationFrame) {
+      if (prefersReducedMotion() || isTouchViewport() || !window.requestAnimationFrame) {
         el.textContent = prefix + target + suffix;
         return;
       }
