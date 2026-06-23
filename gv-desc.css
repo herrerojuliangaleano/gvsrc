@@ -1,0 +1,365 @@
+.gv-desc,
+.gv-desc * {
+  box-sizing: border-box;
+}
+
+.gv-desc {
+  --gv-ink: #172033;
+  --gv-muted: #536176;
+  --gv-soft: #f5f8fc;
+  --gv-line: #dfe8f3;
+  --gv-primary: #0b5fb8;
+  --gv-primary-2: #1f78d1;
+  --gv-accent: #1f8a70;
+  --gv-focus: #ffb020;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+  color: var(--gv-ink);
+  line-height: 1.55;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 16px;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: anywhere;
+}
+
+.gv-desc svg {
+  flex: none;
+}
+
+.gv-hero {
+  color: #fff;
+  background:
+    linear-gradient(120deg, rgba(11, 95, 184, .96), rgba(31, 120, 209, .96)),
+    radial-gradient(circle at 88% 18%, rgba(255, 255, 255, .22), transparent 34%);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 26px rgba(11, 95, 184, .18);
+}
+
+.gv-title {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.gv-lead {
+  max-width: 68ch;
+  margin: 0;
+  font-size: 15px;
+  opacity: .96;
+}
+
+.gv-pills,
+.gv-grid,
+.gv-final {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.gv-grid--spaced {
+  margin-top: 12px;
+}
+
+.gv-pills {
+  margin-top: 16px;
+}
+
+.gv-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 6px 11px;
+  border: 1px solid rgba(255, 255, 255, .32);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .16);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.gv-section {
+  margin: 0 0 28px;
+  scroll-margin-top: 80px;
+}
+
+.gv-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  color: var(--gv-ink);
+  font-size: 20px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.gv-heading::before {
+  content: "";
+  width: 5px;
+  height: 22px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--gv-primary), var(--gv-accent));
+}
+
+.gv-card,
+.gv-acc,
+.gv-table-wrap {
+  border: 1px solid var(--gv-line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(11, 95, 184, .07);
+}
+
+.gv-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 220px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.gv-card--wide {
+  flex-basis: 100%;
+}
+
+.gv-note {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #cfe4d9;
+  border-radius: 8px;
+  background: #f1fbf7;
+  color: #204f43;
+  font-size: 13.5px;
+}
+
+.gv-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--gv-primary);
+  background: #eaf3fc;
+}
+
+.gv-card strong {
+  color: var(--gv-ink);
+  font-size: 15px;
+}
+
+.gv-label {
+  color: var(--gv-muted);
+  font-size: 13.5px;
+  line-height: 1.35;
+}
+
+.gv-meter-copy {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.gv-bar {
+  position: relative;
+  height: 6px;
+  margin: 8px 0 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6edf5;
+}
+
+.gv-bar > i {
+  display: block;
+  width: 58%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--gv-primary), var(--gv-accent));
+}
+
+.gv-scale {
+  display: flex;
+  justify-content: space-between;
+  color: var(--gv-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.gv-acc {
+  margin-bottom: 10px;
+  padding: 14px 16px;
+}
+
+.gv-acc summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gv-ink);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  list-style: none;
+}
+
+.gv-acc summary::-webkit-details-marker {
+  display: none;
+}
+
+.gv-acc summary::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--gv-primary);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.gv-acc[open] summary::after {
+  content: "-";
+}
+
+.gv-acc-body {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--gv-line);
+  color: var(--gv-muted);
+  font-size: 14.5px;
+}
+
+.gv-acc-body p,
+.gv-acc-body ul {
+  margin: 0;
+}
+
+.gv-acc-body ul {
+  padding-left: 18px;
+}
+
+.gv-acc-body li + li,
+.gv-acc-body p + p {
+  margin-top: 6px;
+}
+
+.gv-table-wrap {
+  overflow: hidden;
+}
+
+.gv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.gv-table th,
+.gv-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--gv-line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.gv-table tr:last-child th,
+.gv-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.gv-table th {
+  width: 46%;
+  color: var(--gv-primary);
+  background: var(--gv-soft);
+  font-weight: 750;
+}
+
+.gv-final .gv-card {
+  flex-basis: 200px;
+  background: var(--gv-soft);
+  box-shadow: none;
+}
+
+.gv-js .gv-card,
+.gv-js .gv-acc {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.gv-js .gv-card:hover,
+.gv-js .gv-acc[open] {
+  border-color: #bfd6ec;
+  box-shadow: 0 12px 28px rgba(11, 95, 184, .13);
+}
+
+.gv-js .gv-card:hover {
+  transform: translateY(-2px);
+}
+
+.gv-js summary {
+  outline-offset: 3px;
+}
+
+.gv-js summary:focus-visible {
+  border-radius: 8px;
+  outline: 3px solid var(--gv-focus);
+}
+
+@media (max-width: 767px) {
+  .gv-desc {
+    padding: 0;
+  }
+
+  .gv-hero {
+    padding: 20px 16px;
+  }
+
+  .gv-title {
+    font-size: 20px;
+  }
+
+  .gv-heading {
+    font-size: 18px;
+  }
+
+  .gv-lead,
+  .gv-acc-body,
+  .gv-desc li {
+    font-size: 14px;
+  }
+
+  .gv-card {
+    flex-basis: 100%;
+    width: 100%;
+  }
+
+  .gv-table,
+  .gv-table tbody,
+  .gv-table tr,
+  .gv-table th,
+  .gv-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .gv-table tr {
+    border-bottom: 1px solid var(--gv-line);
+  }
+
+  .gv-table tr:last-child {
+    border-bottom: 0;
+  }
+
+  .gv-table th {
+    padding: 10px 12px 4px;
+    border-bottom: 0;
+    font-size: 13px;
+  }
+
+  .gv-table td {
+    padding: 4px 12px 10px;
+    border-bottom: 0;
+    font-size: 14px;
+  }
+}
