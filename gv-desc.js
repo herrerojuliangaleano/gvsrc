@@ -1,18 +1,19 @@
 /*
-GV Electro Product Descriptions - SAFE v8
+GV Electro Product Descriptions - SAFE v9
 Estable para HTML pegado en proveedores:
 - no usa reveal ni opacity: 0;
 - no modifica layout base;
 - no aplica hover con estilos inline;
 - limpia CSS viejo que podia dejar contenido oculto;
 - anima solo barras/contadores cuando entran en pantalla;
-- arma el boton de WhatsApp repartiendo 50/50 entre 2 numeros.
+- arma el boton de WhatsApp repartiendo 50/50 entre 2 numeros;
+- boton compartir: menu nativo (Web Share) en touch, copiar link en desktop.
 */
 
 (function () {
   "use strict";
 
-  var VERSION = "v8";
+  var VERSION = "v9";
   var CONFIG = {
     barDuration: 900,
     countDuration: 800,
@@ -75,7 +76,8 @@ Estable para HTML pegado en proveedores:
       ".gv-desc.gv-js summary:focus-visible{outline:3px solid #FFB020;border-radius:8px}",
       ".gv-desc.gv-js svg{flex:none}",
       ".gv-desc .gv-wa{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:11px 18px;border-radius:999px;background:#25d366;color:#fff;font-weight:700;font-size:15px;text-decoration:none}",
-      ".gv-desc.gv-js .gv-wa:hover{background:#1ebe5d;transform:translateY(-1px)}"
+      ".gv-desc.gv-js .gv-wa:hover{background:#1ebe5d;transform:translateY(-1px)}",
+      ".gv-desc .gv-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:10px 18px;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;background:transparent;color:#fff;font-family:inherit;font-size:14px;font-weight:650;cursor:pointer}"
     ].join("");
 
     var style = document.createElement("style");
@@ -220,6 +222,72 @@ Estable para HTML pegado en proveedores:
     });
   }
 
+  function legacyCopy(text) {
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "absolute";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(function () {
+        return true;
+      }).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+
+  function getShareUrl() {
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical && canonical.href) return canonical.href;
+    return location.href;
+  }
+
+  function setupShare(root) {
+    toArray(root.querySelectorAll("[data-gv-share]")).forEach(function (btn) {
+      if (btn.getAttribute("data-gv-share-ready") === "true") return;
+      btn.setAttribute("data-gv-share-ready", "true");
+
+      var label = btn.querySelector(".gv-share-txt");
+      var original = label ? label.textContent : "";
+
+      btn.addEventListener("click", function () {
+        var url = getShareUrl();
+        var title = getProductName(btn, root) || document.title;
+
+        var coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+        if (navigator.share && coarse) {
+          navigator.share({ title: title, url: url }).catch(function () {});
+          return;
+        }
+
+        if (!window.Promise) {
+          legacyCopy(url);
+          return;
+        }
+
+        copyText(url).then(function (ok) {
+          if (!label) return;
+          label.textContent = ok ? "Link copiado" : url;
+          window.setTimeout(function () { label.textContent = original; }, 1800);
+        });
+      });
+    });
+  }
+
   function setupDetails(root) {
     toArray(root.querySelectorAll(".gv-acc, details")).forEach(function (detail) {
       if (detail.getAttribute("data-gv-detail-ready") === "true") return;
@@ -247,6 +315,7 @@ Estable para HTML pegado en proveedores:
       setupCounts(root);
       setupDetails(root);
       setupWhatsApp(root);
+      setupShare(root);
       root.setAttribute("data-gv-enhanced", VERSION);
     }
   }

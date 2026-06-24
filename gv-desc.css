@@ -116,6 +116,28 @@
   flex: none;
 }
 
+.gv-share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: 1.5px solid rgba(255, 255, 255, .55);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.gv-share svg {
+  flex: none;
+}
+
 .gv-section {
   margin: 0 0 28px;
   scroll-margin-top: 80px;
@@ -359,6 +381,20 @@
   outline-offset: 3px;
 }
 
+.gv-js .gv-share {
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+.gv-js .gv-share:hover {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .8);
+}
+
+.gv-js .gv-share:focus-visible {
+  outline: 3px solid var(--gv-focus);
+  outline-offset: 3px;
+}
+
 @media (max-width: 767px) {
   .gv-desc {
     padding: 0;
@@ -387,6 +423,11 @@
     color: var(--gv-primary);
     background: var(--gv-soft);
     border-color: var(--gv-line);
+  }
+
+  .gv-share {
+    color: var(--gv-primary);
+    border-color: #c5dcf1;
   }
 
   .gv-title {
