@@ -94,6 +94,27 @@
   font-weight: 650;
 }
 
+.gv-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 11px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(37, 211, 102, .28);
+}
+
+.gv-wa svg {
+  flex: none;
+}
+
 .gv-section {
   margin: 0 0 28px;
   scroll-margin-top: 80px;
@@ -322,6 +343,21 @@
   outline: 3px solid var(--gv-focus);
 }
 
+.gv-js .gv-wa {
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+.gv-js .gv-wa:hover {
+  background: #1ebe5d;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 211, 102, .34);
+}
+
+.gv-js .gv-wa:focus-visible {
+  outline: 3px solid var(--gv-focus);
+  outline-offset: 3px;
+}
+
 @media (max-width: 767px) {
   .gv-desc {
     padding: 0;
@@ -350,6 +386,10 @@
     color: var(--gv-primary);
     background: var(--gv-soft);
     border-color: var(--gv-line);
+  }
+
+  .gv-wa {
+    width: 100%;
   }
 
   .gv-title {

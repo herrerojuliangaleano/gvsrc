@@ -1,22 +1,31 @@
 /*
-GV Electro Product Descriptions - SAFE v7
+GV Electro Product Descriptions - SAFE v8
 Estable para HTML pegado en proveedores:
 - no usa reveal ni opacity: 0;
 - no modifica layout base;
 - no aplica hover con estilos inline;
 - limpia CSS viejo que podia dejar contenido oculto;
-- anima solo barras/contadores cuando entran en pantalla.
+- anima solo barras/contadores cuando entran en pantalla;
+- arma el boton de WhatsApp repartiendo 50/50 entre 2 numeros.
 */
 
 (function () {
   "use strict";
 
-  var VERSION = "v7";
+  var VERSION = "v8";
   var CONFIG = {
     barDuration: 900,
     countDuration: 800,
     maxRetries: 80,
     retryDelay: 150
+  };
+
+  // Numeros de WhatsApp de la empresa (formato internacional, sin + ni espacios).
+  // La consulta se reparte 50/50 entre estos numeros, al azar en cada visita.
+  // Si cambian o se agrega un tercero, se edita solo aca y se sube version del JS.
+  var WHATSAPP = {
+    phones: ["5491161906319", "5491126289603"],
+    message: "¡Hola GV Electro! 👋 Quería consultar por la *{producto}*. ¿Tenés stock y precio?"
   };
 
   function ready(fn) {
@@ -64,7 +73,9 @@ Estable para HTML pegado en proveedores:
       ".gv-desc.gv-js .gv-acc[open]{box-shadow:0 12px 28px rgba(11,95,184,.13)!important;border-color:#bfd6ec!important}",
       ".gv-desc.gv-js summary{outline-offset:3px}",
       ".gv-desc.gv-js summary:focus-visible{outline:3px solid #FFB020;border-radius:8px}",
-      ".gv-desc.gv-js svg{flex:none}"
+      ".gv-desc.gv-js svg{flex:none}",
+      ".gv-desc .gv-wa{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:11px 18px;border-radius:999px;background:#25d366;color:#fff;font-weight:700;font-size:15px;text-decoration:none}",
+      ".gv-desc.gv-js .gv-wa:hover{background:#1ebe5d;transform:translateY(-1px)}"
     ].join("");
 
     var style = document.createElement("style");
@@ -174,6 +185,41 @@ Estable para HTML pegado en proveedores:
     });
   }
 
+  function pickPhone() {
+    var phones = WHATSAPP.phones || [];
+    if (!phones.length) return "";
+    return phones[Math.floor(Math.random() * phones.length)];
+  }
+
+  function getProductName(el, root) {
+    var explicit = el.getAttribute("data-gv-wa-product");
+    if (explicit && explicit.trim()) return explicit.trim();
+
+    var title = root.querySelector(".gv-title");
+    if (title && title.textContent) return title.textContent.trim();
+
+    return "";
+  }
+
+  function setupWhatsApp(root) {
+    toArray(root.querySelectorAll("[data-gv-wa]")).forEach(function (el) {
+      if (el.getAttribute("data-gv-wa-ready") === "true") return;
+
+      var phone = pickPhone();
+      if (!phone) return;
+
+      el.setAttribute("data-gv-wa-ready", "true");
+
+      var product = getProductName(el, root) || "este producto";
+      var template = el.getAttribute("data-gv-wa-msg") || WHATSAPP.message;
+      var message = template.replace("{producto}", product);
+
+      el.setAttribute("href", "https://wa.me/" + phone + "?text=" + encodeURIComponent(message));
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
+    });
+  }
+
   function setupDetails(root) {
     toArray(root.querySelectorAll(".gv-acc, details")).forEach(function (detail) {
       if (detail.getAttribute("data-gv-detail-ready") === "true") return;
@@ -200,6 +246,7 @@ Estable para HTML pegado en proveedores:
       setupBars(root);
       setupCounts(root);
       setupDetails(root);
+      setupWhatsApp(root);
       root.setAttribute("data-gv-enhanced", VERSION);
     }
   }
