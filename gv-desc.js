@@ -25,7 +25,7 @@ Estable para HTML pegado en proveedores:
   // Si cambian o se agrega un tercero, se edita solo aca y se sube version del JS.
   var WHATSAPP = {
     phones: ["5491161906319", "5491126289603"],
-    message: "\u00A1Hola Electro GV! \uD83D\uDC4B Quer\u00EDa consultar por la *{producto}*. \u00BFTen\u00E9s stock y precio?"
+    message: "\u00A1Hola Electro GV! Quer\u00EDa consultar por la *{producto}*. \u00BFTen\u00E9s stock y precio?"
   };
 
   function ready(fn) {
