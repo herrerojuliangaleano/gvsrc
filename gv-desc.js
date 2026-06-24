@@ -76,8 +76,7 @@ Estable para HTML pegado en proveedores:
       ".gv-desc.gv-js summary:focus-visible{outline:3px solid #FFB020;border-radius:8px}",
       ".gv-desc.gv-js svg{flex:none}",
       ".gv-desc .gv-wa{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:11px 18px;border-radius:999px;background:#25d366;color:#fff;font-weight:700;font-size:15px;text-decoration:none}",
-      ".gv-desc.gv-js .gv-wa:hover{background:#1ebe5d;transform:translateY(-1px)}",
-      ".gv-desc .gv-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:10px 18px;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;background:transparent;color:#fff;font-family:inherit;font-size:14px;font-weight:650;cursor:pointer}"
+      ".gv-desc.gv-js .gv-wa:hover{background:#1ebe5d;transform:translateY(-1px)}"
     ].join("");
 
     var style = document.createElement("style");
